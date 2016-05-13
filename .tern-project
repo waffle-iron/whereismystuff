@@ -1,0 +1,10 @@
+{
+  "libs": [
+    "jquery",
+    "node",
+    "electron"
+  ],
+  "loadEagerly": [],
+  "plugins": {}
+  }
+}
