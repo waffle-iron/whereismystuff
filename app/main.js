@@ -1,7 +1,7 @@
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
-const {ipcMain} = require('electron');
+const {ipcMain} = electron;
 
 // Global reference to the main window
 let mainWindow;
@@ -31,6 +31,7 @@ app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
+    dbmanager.close();
     app.quit();
   }
 });
@@ -46,7 +47,16 @@ app.on('activate', function () {
 // Load in the database manager
 var dbmanager = require('./lib/sqlite');
 
-// Recieve db-create-message
-ipcMain.on('db-create-message', (event, arg) => {
+// Recieve db-create-request
+ipcMain.on('db-create-request', (event, arg) => {
   console.log("Request to create database at " + arg + " recieved.")
+  dbmanager.createDatabase(arg, function(err){
+    if(err == null){
+      event.sender.send('db-create-reply', 
+                        "Database was created with great success.");
+    }
+    else{
+      throw err
+    }
+  });
 });
