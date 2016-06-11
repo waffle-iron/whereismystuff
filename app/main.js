@@ -47,16 +47,27 @@ app.on('activate', function () {
 // Load in the database manager
 var dbmanager = require('./lib/sqlite');
 
-// Recieve db-create-request
-ipcMain.on('db-create-request', (event, arg) => {
-  console.log("Request to create database at " + arg + " recieved.")
-  dbmanager.createDatabase(arg, function(err){
+// Define the database initializer callback
+function dbInitCallback(event){
+  var callback = function(err){
     if(err == null){
-      event.sender.send('db-create-reply', 
-                        "Database was created with great success.");
+      event.sender.send('db-init-reply', null);
     }
     else{
-      throw err
+      throw err;
     }
-  });
+  }
+  return callback;
+}
+
+// Recieve db-create-request
+ipcMain.on('db-create-request', (event, arg) => {
+  console.log("Request to create database at " + arg + " recieved.");
+  dbmanager.createDatabase(arg, dbInitCallback(event));
+});
+
+// Recieve db-load-request
+ipcMain.on('db-load-request', (event, arg) => {
+  console.log("Request to load database " + arg + " recieved.");
+  dbmanager.loadDatabase(arg, dbInitCallback(event));
 });

@@ -3,11 +3,16 @@ const sqlite3 = require('sqlite3').verbose();
 // Database GET?
 this.loaded = false;
 
+// Load the database
+this.loadDatabase = function(filename, callback){
+  this.db = new sqlite3.Database(filename, callback);
+  this.loaded = true;
+}
+
 // Create a database and load it
 this.createDatabase = function(filename, callback){
-  this.db = new sqlite3.Database(filename, callback);
+  this.loadDatabase(filename, callback);
   initDB(this.db);
-  this.loaded = true;
 }
 
 // Initialize the database
