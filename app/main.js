@@ -46,6 +46,7 @@ app.on('activate', function () {
 
 // Load in the database manager
 var dbmanager = require('./lib/sqlite');
+global.dbm = dbmanager;
 
 // Define the database initializer callback
 function dbInitCallback(event){

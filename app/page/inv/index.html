@@ -2,13 +2,22 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <script type="text/javascript">
+      require('./index.js');
+    </script>
     <title>Where Is My Stuff</title>
   </head>
   <body>
     <h1>The Inventory</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+
+    <table id="inventory">
+      <tr>
+        <th>Quantity</th>
+        <th>Item</th>
+        <th>Category</th>
+        <th>Location</th>
+      </tr>
+    </table>
 
   </body>
 </html>

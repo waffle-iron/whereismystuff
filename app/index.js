@@ -2,7 +2,7 @@ window.$ = require('jquery');
 
 const electron = require('electron');
 const dialog = electron.remote.dialog;
-const {ipcRenderer} = require('electron');
+const {ipcRenderer} = electron;
 
 function dialogconf(mode){
   if(mode == "create"){
