@@ -44,12 +44,6 @@ $(document).ready(function(){
     });
   });
 
-  // Handle new database confirmation
-  ipcRenderer.on('db-init-reply', (event, arg) => {
-    $('#new-database').slideUp();
-    $('#load-database').slideUp();
-  });
-
   // Handle database load request
   $('#load-database').click(function(){
     dialog.showOpenDialog(

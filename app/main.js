@@ -51,7 +51,7 @@ var dbmanager = require('./lib/sqlite');
 function dbInitCallback(event){
   var callback = function(err){
     if(err == null){
-      event.sender.send('db-init-reply', null);
+      loadInventoryScreen();
     }
     else{
       throw err;
@@ -71,3 +71,8 @@ ipcMain.on('db-load-request', (event, arg) => {
   console.log("Request to load database " + arg + " recieved.");
   dbmanager.loadDatabase(arg, dbInitCallback(event));
 });
+
+// Load the next page after a database has been loaded
+function loadInventoryScreen(){
+  mainWindow.loadURL('file://' + __dirname + '/page/inv/index.html');
+}
