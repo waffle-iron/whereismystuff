@@ -26,18 +26,22 @@ function initDB(db){
     db.run("CREATE TABLE item (\
       id INTEGER PRIMARY KEY AUTOINCREMENT,\
       name TEXT,\
-      category_id INTEGER\
+      category_id INTEGER,\
+      FOREIGN KEY (category_id) REFERENCES category(id)\
     );");
     db.run("CREATE TABLE location (\
       id INTEGER PRIMARY KEY AUTOINCREMENT,\
       name TEXT,\
-      inside_id INTEGER\
+      inside_id INTEGER,\
+      FOREIGN KEY (inside_id) REFERENCES location(id)\
     );");
     db.run("CREATE TABLE entity (\
       id INTEGER PRIMARY KEY AUTOINCREMENT,\
       item_id INTEGER NOT NULL,\
       location_id INTEGER NOT NULL,\
-      quantity INTEGER\
+      quantity INTEGER,\
+      FOREIGN KEY (location_id) REFERENCES location(id),\
+      FOREIGN KEY (item_id) REFERENCES item(id)\
     );");
 
     // Add base data
