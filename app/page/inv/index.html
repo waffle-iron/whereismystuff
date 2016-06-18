@@ -19,7 +19,7 @@
         aria-controls="stuff" role="tab" data-toggle="tab">Stuff</a></li>
         <li role="presentation"><a href="#add" aria-controls="add" role="tab"
         data-toggle="tab">Add Stuff</a></li>
-        <li role="presentation"><a href="#manage" aria-controls="manage"
+        <li role="presentation"><a href="#manage-tab" aria-controls="manage-tab"
         role="tab" data-toggle="tab">Manage</a></li>
       </ul>
 
@@ -38,13 +38,13 @@
               </div>
             </div>
             <div class="col-md-2">
-              <select class="form-control" id="cat-selector">
-                <option data-cat-id="-1" selected>Category</option>
+              <select class="form-control" id="filter-category">
+                <option value="-1" selected>Category</option>
               </select>
             </div>
             <div class="col-md-2">
-              <select class="form-control" id="loc-selector">
-                <option data-loc-id="-1" selected>Location</option>
+              <select class="form-control" id="filter-location">
+                <option value="-1" selected>Location</option>
               </select>
             </div>
             <div class="col-md-2">
@@ -99,13 +99,13 @@
                      placeholder="Stuff">
             </div>
             <div class="col-md-2">
-              <select class="form-control" id="cat-selector">
-                <option data-cat-id="-1" selected>Category</option>
+              <select class="form-control" id="add-stuff-category">
+                <option value="-1" selected disabled>Category</option>
               </select>
             </div>
             <div class="col-md-2">
-              <select class="form-control" id="loc-selector">
-                <option data-loc-id="-1" selected>Location</option>
+              <select class="form-control" id="add-stuff-location">
+                <option value="-1" selected disabled>Location</option>
               </select>
             </div>
             <div class="col-md-2">
@@ -115,7 +115,7 @@
           </div>
         </div>
 
-        <div role="tabpanel" class="tab-pane" id="manage">
+        <div role="tabpanel" class="tab-pane" id="manage-tab">
           <!-- Manage panel -->
           <div class="row">
             <div class="col-md-12">
@@ -131,13 +131,13 @@
                           <h4 class="list-group-item-header">Move Location</h4>
                           <div class="row tool-row">
                             <div class="col-md-5">
-                              <select class="form-control" id="move-loc-selector">
-                                <option data-loc-id="-1" selected>Move location</option>
+                              <select class="form-control" id="manage-move-location-from">
+                                <option value="-1" selected disabled>Move location</option>
                               </select>
                             </div>
                             <div class="col-md-5">
-                              <select class="form-control" id="move-loc-selector">
-                                <option data-loc-id="-1" selected>Into location</option>
+                              <select class="form-control" id="manage-move-location-into">
+                                <option value="-1" selected disabled>Into location</option>
                               </select>
                             </div>
                             <div class="col-md-2">
@@ -158,8 +158,8 @@
                           <input type="text" class="form-control
                                                     list-group-item-text extra-vspace"
                                  placeholder="Place">
-                          <select class="form-control extra-vspace" id="add-loc-selector">
-                            <option data-loc-id="-1" selected>Inside...</option>
+                          <select class="form-control extra-vspace" id="manage-add-location">
+                            <option value="-1" selected disabled>Inside...</option>
                           </select>
                           <button class="btn btn-success max-width disabled"
                                   type="button"
@@ -171,8 +171,8 @@
                       <div class="list-group">
                         <div class="list-group-item">
                           <h4 class="list-group-item-header">Remove Location</h4>
-                          <select class="form-control extra-vspace" id="del-loc-selector">
-                            <option data-loc-id="-1" selected>Location</option>
+                          <select class="form-control extra-vspace" id="manage-delete-location">
+                            <option value="-1" selected>Location</option>
                           </select>
                           <button class="btn btn-danger max-width disabled"
                                   type="button"
@@ -199,10 +199,10 @@
                           <h4 class="list-group-item-header">Add Category</h4>
                           <input type="text" class="form-control
                                                     list-group-item-text extra-vspace"
-                                 placeholder="Category">
+                                 placeholder="Category" id="manage-add-category">
                           <button class="btn btn-success max-width disabled"
                                   type="button"
-                                  id="add-category-button">Add Category</button>
+                                  id="manage-add-category-button">Add Category</button>
                         </div>
                       </div>
                     </div>
@@ -210,12 +210,12 @@
                       <div class="list-group">
                         <div class="list-group-item">
                           <h4 class="list-group-item-header">Remove Category</h4>
-                          <select class="form-control extra-vspace" id="del-cat-selector">
-                            <option data-loc-id="-1" selected>Category</option>
+                          <select class="form-control extra-vspace" id="manage-delete-category">
+                            <option value="-1" selected>Category</option>
                           </select>
                           <button class="btn btn-danger max-width disabled"
                                   type="button"
-                                  id="add-category-button">Remove Category</button>
+                                  id="manage-delete-category-button">Remove Category</button>
                         </div>
                       </div>
                     </div>
