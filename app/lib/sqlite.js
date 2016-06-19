@@ -21,17 +21,17 @@ function initDB(db){
     // Create the base tables
     db.run("CREATE TABLE category (\
       id INTEGER PRIMARY KEY AUTOINCREMENT,\
-      name TEXT\
+      name TEXT NOT NULL\
     );");
     db.run("CREATE TABLE item (\
       id INTEGER PRIMARY KEY AUTOINCREMENT,\
-      name TEXT,\
-      category_id INTEGER,\
+      name TEXT NOT NULL,\
+      category_id INTEGER NOT NULL,\
       FOREIGN KEY (category_id) REFERENCES category(id)\
     );");
     db.run("CREATE TABLE location (\
       id INTEGER PRIMARY KEY AUTOINCREMENT,\
-      name TEXT,\
+      name TEXT NOT NULL,\
       inside_id INTEGER,\
       FOREIGN KEY (inside_id) REFERENCES location(id)\
     );");
@@ -39,7 +39,7 @@ function initDB(db){
       id INTEGER PRIMARY KEY AUTOINCREMENT,\
       item_id INTEGER NOT NULL,\
       location_id INTEGER NOT NULL,\
-      quantity INTEGER,\
+      quantity INTEGER NOT NULL,\
       FOREIGN KEY (location_id) REFERENCES location(id),\
       FOREIGN KEY (item_id) REFERENCES item(id)\
     );");
