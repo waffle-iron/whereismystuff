@@ -6,18 +6,226 @@
       require('./index.js');
     </script>
     <title>Where Is My Stuff</title>
+    <link href="../../css/bootstrap.css" rel="stylesheet">
+    <link href="../../css/custom.css" rel="stylesheet">
   </head>
   <body>
-    <h1>The Inventory</h1>
+    <div class="container">
+      <h1 class="text-center"><strong>The Stuff</strong></h1>
 
-    <table id="inventory">
-      <tr>
-        <th>Quantity</th>
-        <th>Item</th>
-        <th>Category</th>
-        <th>Location</th>
-      </tr>
-    </table>
+      <!-- Tab-bar -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#stuff"
+        aria-controls="stuff" role="tab" data-toggle="tab">Stuff</a></li>
+        <li role="presentation"><a href="#add" aria-controls="add" role="tab"
+        data-toggle="tab">Add Stuff</a></li>
+        <li role="presentation"><a href="#manage" aria-controls="manage"
+        role="tab" data-toggle="tab">Manage</a></li>
+      </ul>
 
+
+      <!-- Main content starts here -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="stuff">
+
+          <!-- Stuff panel -->
+          <div class="row tool-row">
+            <div class="col-md-6">
+              <div class="input-group">
+                <div class="input-group-addon">Filter</div>
+                <input type="text" class="form-control" id="text-filter"
+                       placeholder="Stuff">
+              </div>
+            </div>
+            <div class="col-md-2">
+              <select class="form-control" id="cat-selector">
+                <option data-cat-id="-1" selected>Category</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <select class="form-control" id="loc-selector">
+                <option data-loc-id="-1" selected>Location</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-primary max-width disabled" type="button"
+                      id="filter-button">Filter</button>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table table-hover table-condensed">
+                <thead>
+                  <tr>
+                    <th>Mark</th>
+                    <th>Quantity</th>
+                    <th>Item</th>
+                    <th>Category</th>
+                    <th>Location</th>
+                  </tr>
+                </thead>
+                <tbody id="inventory">
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="row tool-row">
+            <div class="col-md-3">
+              <button class="btn btn-default max-width disabled" type="button"
+                      id="move-button">Move</button>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-default max-width disabled" type="button"
+                      id="recat-button">Recategorize</button>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-default max-width disabled" type="button"
+                      id="requant-button">Change Quantity</button>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-danger max-width disabled" type="button"
+                      id="destroy-button">Destroy</button>
+            </div>
+          </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="add">
+          <!-- Add stuff panel -->
+          <div class="row tool-row">
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="text-filter"
+                     placeholder="Stuff">
+            </div>
+            <div class="col-md-2">
+              <select class="form-control" id="cat-selector">
+                <option data-cat-id="-1" selected>Category</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <select class="form-control" id="loc-selector">
+                <option data-loc-id="-1" selected>Location</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-success max-width disabled" type="button"
+                      id="add-stuff-button">Add</button>
+            </div>
+          </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane" id="manage">
+          <!-- Manage panel -->
+          <div class="row">
+            <div class="col-md-12">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Location</h3>
+                </div>
+                <div class="panel-body">
+                  <div class="row tool-row">
+                    <div class="col-md-12">
+                      <div class="list-group">
+                        <div class="list-group-item">
+                          <h4 class="list-group-item-header">Move Location</h4>
+                          <div class="row tool-row">
+                            <div class="col-md-5">
+                              <select class="form-control" id="move-loc-selector">
+                                <option data-loc-id="-1" selected>Move location</option>
+                              </select>
+                            </div>
+                            <div class="col-md-5">
+                              <select class="form-control" id="move-loc-selector">
+                                <option data-loc-id="-1" selected>Into location</option>
+                              </select>
+                            </div>
+                            <div class="col-md-2">
+                              <button class="btn btn-primary max-width disabled"
+                                      type="button"
+                                      id="move-location-button">Move</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row tool-row">
+                    <div class="col-md-6">
+                      <div class="list-group">
+                        <div class="list-group-item">
+                          <h4 class="list-group-item-header">Add Location</h4>
+                          <input type="text" class="form-control
+                                                    list-group-item-text extra-vspace"
+                                 placeholder="Place">
+                          <select class="form-control extra-vspace" id="add-loc-selector">
+                            <option data-loc-id="-1" selected>Inside...</option>
+                          </select>
+                          <button class="btn btn-success max-width disabled"
+                                  type="button"
+                                  id="add-location-button">Add Location</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="list-group">
+                        <div class="list-group-item">
+                          <h4 class="list-group-item-header">Remove Location</h4>
+                          <select class="form-control extra-vspace" id="del-loc-selector">
+                            <option data-loc-id="-1" selected>Location</option>
+                          </select>
+                          <button class="btn btn-danger max-width disabled"
+                                  type="button"
+                                  id="add-location-button">Remove Location</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Category</h3>
+                </div>
+                <div class="panel-body">
+                  <div class="row tool-row">
+                    <div class="col-md-6">
+                      <div class="list-group">
+                        <div class="list-group-item">
+                          <h4 class="list-group-item-header">Add Category</h4>
+                          <input type="text" class="form-control
+                                                    list-group-item-text extra-vspace"
+                                 placeholder="Category">
+                          <button class="btn btn-success max-width disabled"
+                                  type="button"
+                                  id="add-category-button">Add Category</button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="list-group">
+                        <div class="list-group-item">
+                          <h4 class="list-group-item-header">Remove Category</h4>
+                          <select class="form-control extra-vspace" id="del-cat-selector">
+                            <option data-loc-id="-1" selected>Category</option>
+                          </select>
+                          <button class="btn btn-danger max-width disabled"
+                                  type="button"
+                                  id="add-category-button">Remove Category</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+   </div>
   </body>
 </html>

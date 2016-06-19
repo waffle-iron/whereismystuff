@@ -6,14 +6,21 @@
       require('./index.js');
     </script>
     <title>Where Is My Stuff</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
   </head>
   <body>
-    <h1>Where Is My Stuff</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
+    <div class="container">
+      <h1 class="text-center"><strong>Where Is My Stuff</strong></h1>
 
-    <button type="button" id="new-database">New Database</button>
-    <button type="button" id="load-database">Load Database</button>
+      <div class="row text-center main-menu-row">
+        <button class="btn btn-lg btn-default main-menu-button" type="button"
+        id="new-database">New Database</button>
+      </div>
+      <div class="row text-center main-menu-row">
+        <button class="btn btn-lg btn-primary main-menu-button" type="button"
+        id="load-database">Load Database</button>
+      </div>
+    </div>
   </body>
 </html>

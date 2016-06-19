@@ -1,4 +1,5 @@
 window.$ = require('jquery');
+require('../../lib/tab.js');
 
 const electron = require('electron');
 const remote = electron.remote;
@@ -14,8 +15,10 @@ function makeModel(dbm){
 // Insert row into table function
 function insertRowIntoTable(table){
   var insertFunction = function(row){
-    table.append("<tr><td>"+ row.quantity + "</td><td>" + row.name + "</td><td>"
-                 + row.category + "</td><td>" + row.location + "</td></tr>")
+    table.append("<tr><td><input type=\"checkbox\" id=\"entity-checkbox-" +
+                 row.id + "\" value=\"" + row.id + "\"></td><td>" + row.quantity +
+                 "</td><td>" + row.name + "</td><td>" + row.category +
+                 "</td><td>" + row.location + "</td></tr>")
   }
   return insertFunction;
 }

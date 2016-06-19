@@ -1,0 +1,23 @@
+.main-menu-row {
+    margin: 10px 0;
+}
+
+.main-menu-button {
+    width: 50%;
+}
+
+.max-width{
+    width: 100%;
+}
+
+.tool-row div{
+    margin: 5px 0;
+}
+
+.extra-vspace{
+    margin: 5px 0;
+}
+
+.nav {
+    margin: 10px 0;
+}
