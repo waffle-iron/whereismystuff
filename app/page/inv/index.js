@@ -35,7 +35,7 @@ function insertOptionIntoSelect(select){
 function updateLists(){
   // Push category lists
   var catListList = ['#filter-category', '#add-stuff-category',
-                     '#manage-delete-category'];
+                     '#manage-delete-category', '#recategorize-stuff'];
   for(i = 0; i < catListList.length; i++){
     var select = $(catListList[i]);
     select.children().not('option[value="-1"]').remove();
@@ -44,7 +44,8 @@ function updateLists(){
   // Push location lists
   var locListList = ['#filter-location', '#add-stuff-location',
                      '#manage-move-location-into', '#manage-move-location-from',
-                     '#manage-add-location-inside', '#manage-delete-location'];
+                     '#manage-add-location-inside', '#manage-delete-location',
+                     '#move-stuff'];
   for(i = 0; i < locListList.length; i++){
     var select = $(locListList[i]);
     select.children().not('option[value="-1"]').remove();

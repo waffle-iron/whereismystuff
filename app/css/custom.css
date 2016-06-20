@@ -21,3 +21,8 @@
 .nav {
     margin: 10px 0;
 }
+
+.table-wrapper{
+    max-height: 381px;
+    overflow-y: scroll;
+}

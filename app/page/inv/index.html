@@ -55,38 +55,70 @@
 
           <div class="row">
             <div class="col-md-12">
-              <table class="table table-hover table-condensed">
-                <thead>
-                  <tr>
-                    <th>Mark</th>
-                    <th>Quantity</th>
-                    <th>Item</th>
-                    <th>Category</th>
-                    <th>Location</th>
-                  </tr>
-                </thead>
-                <tbody id="inventory">
-                </tbody>
-              </table>
+              <div class="table-wrapper">
+                <table class="table table-hover table-condensed">
+                  <thead>
+                    <tr>
+                      <th>Mark</th>
+                      <th>Quantity</th>
+                      <th>Item</th>
+                      <th>Category</th>
+                      <th>Location</th>
+                    </tr>
+                  </thead>
+                  <tbody id="inventory">
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 
           <div class="row tool-row">
             <div class="col-md-3">
-              <button class="btn btn-default max-width disabled" type="button"
-                      id="move-button">Move</button>
+              <div class="list-group">
+                <div class="list-group-item">
+                  <h4 class="list-group-item-header">Move</h4>
+                  <select class="form-control extra-vspace" id="move-stuff">
+                    <option value="-1" selected disabled>Location</option>
+                  </select>
+                  <button class="btn btn-default max-width disabled" type="button"
+                          id="move-stuff-button">Move</button>
+                </div>
+              </div>
             </div>
             <div class="col-md-3">
-              <button class="btn btn-default max-width disabled" type="button"
-                      id="recat-button">Recategorize</button>
+              <div class="list-group">
+                <div class="list-group-item">
+                  <h4 class="list-group-item-header">Recategorize</h4>
+                  <select class="form-control extra-vspace" id="recategorize-stuff">
+                    <option value="-1" selected disabled>Category</option>
+                  </select>
+                  <button class="btn btn-default max-width disabled" type="button"
+                          id="recategorize-stuff-button">Recategorize</button>
+                </div>
+              </div>
             </div>
             <div class="col-md-3">
-              <button class="btn btn-default max-width disabled" type="button"
-                      id="requant-button">Change Quantity</button>
+              <div class="list-group">
+                <div class="list-group-item">
+                  <h4 class="list-group-item-header">Change Quantity</h4>
+                  <input type="number" class="form-control extra-vspace" id="change-stuff-quantity"
+                         placeholder="Quantity" min="0">
+                  <button class="btn btn-default max-width disabled" type="button"
+                          id="change-stuff-quantity-button">Change Quantity</button>
+                </div>
+              </div>
             </div>
             <div class="col-md-3">
-              <button class="btn btn-danger max-width disabled" type="button"
-                      id="destroy-button">Destroy</button>
+              <div class="list-group">
+                <div class="list-group-item">
+                  <h4 class="list-group-item-header">Split Stack</h4>
+                  <input type="number" class="form-control extra-vspace" id="split-stuff-stack"
+                         placeholder="Quantity in new stack" min="1">
+                  <button class="btn btn-default max-width disabled" type="button"
+                          id="split-button">Split Stack</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -160,8 +192,9 @@
                         <div class="list-group-item">
                           <h4 class="list-group-item-header">Add Location</h4>
                           <input type="text" class="form-control
-                                                    list-group-item-text extra-vspace"
-                                 placeholder="Place" id="manage-add-location-name">
+                                                     extra-vspace"
+                                 placeholder="Place"
+                                 id="manage-add-location-name">
                           <select class="form-control extra-vspace" id="manage-add-location-inside">
                             <option value="-1" selected disabled>Inside...</option>
                           </select>
@@ -202,8 +235,9 @@
                         <div class="list-group-item">
                           <h4 class="list-group-item-header">Add Category</h4>
                           <input type="text" class="form-control
-                                                    list-group-item-text extra-vspace"
-                                 placeholder="Category" id="manage-add-category">
+                                                    extra-vspace"
+                                 placeholder="Category"
+                                 id="manage-add-category">
                           <button class="btn btn-success max-width disabled"
                                   type="button"
                                   id="manage-add-category-button">Add Category</button>
