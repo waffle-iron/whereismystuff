@@ -17,8 +17,8 @@
       <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active"><a href="#stuff"
         aria-controls="stuff" role="tab" data-toggle="tab">Stuff</a></li>
-        <li role="presentation"><a href="#add" aria-controls="add" role="tab"
-        data-toggle="tab">Add Stuff</a></li>
+        <li role="presentation"><a href="#add-tab" aria-controls="add-tab"
+        role="tab" data-toggle="tab">Add Stuff</a></li>
         <li role="presentation"><a href="#manage-tab" aria-controls="manage-tab"
         role="tab" data-toggle="tab">Manage</a></li>
       </ul>
@@ -91,11 +91,15 @@
           </div>
         </div>
 
-        <div role="tabpanel" class="tab-pane" id="add">
+        <div role="tabpanel" class="tab-pane" id="add-tab">
           <!-- Add stuff panel -->
           <div class="row tool-row">
-            <div class="col-md-6">
-              <input type="text" class="form-control" id="text-filter"
+            <div class="col-md-2">
+              <input type="number" class="form-control" id="add-stuff-quantity"
+                     placeholder="Quantity" min="1">
+            </div>
+            <div class="col-md-5">
+              <input type="text" class="form-control" id="add-stuff"
                      placeholder="Stuff">
             </div>
             <div class="col-md-2">
@@ -108,7 +112,7 @@
                 <option value="-1" selected disabled>Location</option>
               </select>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-1">
               <button class="btn btn-success max-width disabled" type="button"
                       id="add-stuff-button">Add</button>
             </div>

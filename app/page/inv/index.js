@@ -186,4 +186,21 @@ $(document).ready(function(){
       notify('manage-tab', "Failed to move location "+name, 'danger');
     });
   });
+
+  // Add stuff
+  $('#add-stuff-button').removeClass('disabled').click(function(){
+    var name = $('#add-stuff').val();
+    var quantity = $('#add-stuff-quantity').val();
+    var category = $('#add-stuff-category').val();
+    var location = $('#add-stuff-location').val();
+    if(name == "" || quantity == "" || category == null || location == null){
+      return;
+    }
+    dbModel.addStuff(name, quantity, category, location, function(){
+      dbModel.update(updateLists);
+      notify('add-tab', "Successfully added "+name, 'success');
+    }, function(){
+      notify('add-tab', "Failed to add "+name, 'danger');
+    });
+  });
 });

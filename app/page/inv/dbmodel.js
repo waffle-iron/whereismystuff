@@ -244,3 +244,53 @@ this.updateSuperLocation = function(id, superID, successCB, failCB){
   });
   stmt.finalize();
 }
+
+// Add stuff
+this.addStuff = function(name, quantity, category, location, successCB, failCB){
+  var successCB = successCB;
+  var failCB = failCB;
+  var idstmt = this.dbm.makeStatement("SELECT seq FROM sqlite_sequence WHERE \
+  name = 'item'");
+  var itemstmt = this.dbm.makeStatement("INSERT INTO item (id, name, \
+  category_id) VALUES ($id, $name, $catID)");
+  var entstmt = this.dbm.makeStatement("INSERT INTO entity (item_id, \
+  location_id, quantity) VALUES ($item, $locID, $quantity)");
+  idstmt.get(function(err, row){
+    if(err == null){
+      var id = row.seq + 1;
+      itemstmt.run({$id: id, $name: name, $catID: category}, function(err, row){
+        if(err == null){
+          entstmt.run({$item: id, $locID: location, $quantity: quantity},
+                     function(err,row){
+            if(err == null){
+              if(successCB != undefined){
+                successCB();
+              }
+            }
+            else{
+              if(failCB != undefined){
+                failCB();
+              }
+              throw err;
+            }
+          });
+          entstmt.finalize();
+        }
+        else{
+          if(failCB != undefined){
+            failCB();
+          }
+          throw err;
+        }
+      });
+      itemstmt.finalize();
+    }
+    else{
+      if(failCB != undefined){
+        failCB();
+      }
+      throw err;
+    }
+  });
+  idstmt.finalize();
+}
