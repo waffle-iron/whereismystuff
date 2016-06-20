@@ -15,10 +15,10 @@ function makeModel(dbm){
 // Insert row into table function
 function insertRowIntoTable(table){
   var insertFunction = function(row){
-    table.append("<tr><td><input type=\"checkbox\" id=\"entity-checkbox-" +
-                 row.id + "\" value=\"" + row.id + "\"></td><td>" + row.quantity
-                 + "</td><td>" + row.name + "</td><td>" + row.category +
-                 "</td><td>" + row.location + "</td></tr>");
+    table.append("<tr><td><input type=\"checkbox\" value=\"" + row.id +
+                 "\"></td><td>" + row.quantity + "</td><td>" + row.name +
+                 "</td><td>" + row.category + "</td><td>" + row.location +
+                 "</td></tr>");
   }
   return insertFunction;
 }
@@ -67,6 +67,39 @@ function notify(tabID, message, type){
   headrow.slideDown('fast');
   notif.click(function(){
     headrow.slideUp('fast');
+  });
+}
+
+// Get the selected rows of the table
+function getSelectedRows(){
+  var rows = $('#inventory :checked');
+  if(rows.length == 0){
+    return null;
+  }
+  else{
+    return rows;
+  }
+}
+
+// Update table function
+function updateTable(){
+  var table = $('#inventory');
+  table.empty();
+  dbModel.getInv(insertRowIntoTable(table), function(){
+    // Row formatting
+    $('#inventory :checkbox').change(function(){
+      if(this.checked){
+        $(this).parent().parent().addClass('info');
+      }
+      else{
+        $(this).parent().parent().removeClass('info');
+      }
+    });
+
+    // Row selection
+    $('#inventory tr').click(function(){
+      $(this).children().children(':checkbox').click();
+    });
   });
 }
 
@@ -202,6 +235,82 @@ $(document).ready(function(){
       notify('add-tab', "Successfully added "+name, 'success');
     }, function(){
       notify('add-tab', "Failed to add "+name, 'danger');
+    });
+  });
+
+  // Move stuff
+  $('#move-stuff-button').removeClass('disabled').click(function(){
+    var rows = getSelectedRows();
+    if(rows == null){return;}
+    var location = $('#move-stuff').val();
+    if(location == null){return;}
+    var ids = [];
+    for(i = 0; i < rows.length; i++){
+      ids.push(rows[i].value);
+    }
+    dbModel.moveStuff(ids, location, null, function(){
+      notify('stuff-tab', "Failed to move items", 'danger');
+    });
+  });
+  // Recategorize stuff
+  $('#recategorize-stuff-button').removeClass('disabled').click(function(){
+    var rows = getSelectedRows();
+    if(rows == null){return;}
+    var category = $('#recategorize-stuff').val();
+    if(category == null){return;}
+    var ids = [];
+    for(i = 0; i < rows.length; i++){
+      ids.push(rows[i].value);
+    }
+    dbModel.recategorizeStuff(ids, category, null, function(){
+      notify('stuff-tab', "Failed to recategorize items", 'danger');
+    });
+  });
+  // Change stuff quantity
+  $('#change-stuff-quantity-button').removeClass('disabled').click(function(){
+    var rows = getSelectedRows();
+    if(rows == null){return;}
+    var quantity = $('#change-stuff-quantity').val();
+    if(quantity == null){return;}
+    var ids = [];
+    for(i = 0; i < rows.length; i++){
+      ids.push(rows[i].value);
+    }
+    dbModel.changeStuffQuantity(ids, quantity, null, function(){
+      notify('stuff-tab', "Failed to change quantity of items", 'danger');
+    });
+  });
+  // Split stack of stuff
+  $('#split-stuff-stack-button').removeClass('disabled').click(function(){
+    var rows = getSelectedRows();
+    if(rows == null){return;}
+    if(rows.length > 1){
+      notify('stuff-tab', "Splitting more than one stack at once isn't "+
+             "supported", 'warning');
+      return;
+    }
+    var quantity = $('#split-stuff-stack').val();
+    if(quantity == null){return;}
+    var id = rows[0].value;
+    dbModel.splitStuffStack(id, quantity, function(){
+      notify('stuff-tab', "Original stack doesn't have a quantity large enough"+
+             " for that split", 'warning');
+    }, function(){
+      notify('stuff-tab', "Failed to split stack", 'danger');
+    });
+  });
+
+  // Filtering
+  $('#filter-button').removeClass('disabled').click(function(){
+    var text = $('#text-filter').val();
+    var category = $('#filter-category').val();
+    var location = $('#filter-location').val();
+    console.log([text, category, location]);
+    if(text == ""){text = null}
+    if(category == -1){category = null}
+    if(location == -1){location = null}
+    dbModel.makeFilterView(text, category, location, function(){
+      updateTable();
     });
   });
 });

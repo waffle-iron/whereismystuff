@@ -294,3 +294,176 @@ this.addStuff = function(name, quantity, category, location, successCB, failCB){
   });
   idstmt.finalize();
 }
+
+// Move stuff
+this.moveStuff = function(ids, location, successCB, failCB){
+  var stmt = this.dbm.makeStatement("UPDATE entity SET location_id = $locid\
+  WHERE id = $id");
+  for(i = 0; i < ids.length; i++){
+    stmt.run({$id: ids[i], $locid: location}, function(err, row){
+      if(err != null){
+        if(failCB != undefined){
+          failCB();
+        }
+        throw err;
+      }
+    });
+  }
+  stmt.finalize();
+}
+
+// Recategorize stuff
+this.recategorizeStuff = function(ids, category, successCB, failCB){
+  var stmt = this.dbm.makeStatement("UPDATE item SET category_id = $catid\
+  WHERE id = (SELECT item_id FROM entity WHERE id = $id);");
+  for(i = 0; i < ids.length; i++){
+    stmt.run({$id: ids[i], $catid: category}, function(err, row){
+      if(err != null){
+        if(failCB != undefined){
+          failCB();
+        }
+        throw err;
+      }
+    });
+  }
+  stmt.finalize();
+}
+
+// Change stuff quantity
+this.changeStuffQuantity = function(ids, quantity, successCB, failCB){
+  var stmt = this.dbm.makeStatement("UPDATE entity SET quantity = $quantity\
+  WHERE id = $id;");
+  for(i = 0; i < ids.length; i++){
+    stmt.run({$id: ids[i], $quantity: quantity}, function(err, row){
+      if(err != null){
+        if(failCB != undefined){
+          failCB();
+        }
+        throw err;
+      }
+    });
+  }
+  stmt.finalize();
+}
+
+// Split stack of stuff
+this.splitStuffStack = function(id, quantity, insufficientCB, failCB){
+  var getstmt = this.dbm.makeStatement("SELECT * FROM entity WHERE id = $id");
+  var insstmt = this.dbm.makeStatement("INSERT INTO entity (item_id, \
+  location_id, quantity) VALUES ($item, $loc, $quantity);")
+  var updstmt = this.dbm.makeStatement("UPDATE entity SET quantity = $quantity\
+  WHERE id = $id;");
+  getstmt.get({$id: id}, function(err, row){
+    if(err == null){
+      var currentQuant = row.quantity;
+      if(currentQuant <= quantity){
+        insufficientCB();
+      }
+      else{
+        insstmt.run({$item: row.item_id, $loc: row.location_id, $quantity:
+                     quantity}, function(err, row){
+          if(err == null){
+            updstmt.run({$id: id, $quantity: currentQuant - quantity},
+                       function(err, row){
+              if(err != null){
+                if(failCB != undefined){
+                  failCB();
+                }
+                throw err;
+              }
+            });
+          }
+          else{
+            if(failCB != undefined){
+              failCB();
+            }
+            throw err;
+          }
+        });
+        insstmt.finalize();
+      }
+    }
+    else{
+      if(failCB != undefined){
+        failCB();
+      }
+      throw err;
+    }
+  });
+  getstmt.finalize();
+}
+
+// Generate virtual filter view
+this.makeFilterView = function(textConstraint, categoryConstraint,
+                               locationConstraint, callback){
+  var query = "CREATE TEMP VIEW filterView AS\
+  SELECT entity.id AS id, entity.quantity AS quantity, item.name AS name,\
+    category.name AS category, location.name AS location\
+  FROM entity\
+  INNER JOIN "
+  if(locationConstraint != null){
+    query += "(SELECT * FROM location WHERE id = "+locationConstraint+") "
+  }
+  query += "location\
+  ON entity.location_id = location.id\
+  INNER JOIN "
+  if(textConstraint != null){
+    query += "(SELECT * FROM item WHERE name LIKE \"%" + textConstraint +
+      "%\") "
+  }
+  query += "item\
+  ON entity.item_id = item.id\
+  INNER JOIN "
+  if(categoryConstraint != null){
+    query += "(SELECT * FROM category WHERE id = " + categoryConstraint + ") "
+  }
+  query += "category\
+  ON item.category_id = category.id\
+  WHERE entity.quantity > 0;"
+
+  var dbm = this.dbm;
+  var dropstmt = this.dbm.makeStatement("DROP VIEW IF EXISTS filterView;");
+
+  dropstmt.run(function(err, row){
+    if(err == null){
+      var stmt = dbm.makeStatement(query);
+      stmt.run(function(err, row){
+        if(err == null){
+          callback();
+        }
+        else{
+          throw err;
+        }
+      });
+      stmt.finalize();
+    }
+    else{
+      throw err;
+    }
+  });
+  dropstmt.finalize();
+}
+
+// Retrieve the top of the inventory
+this.getInv = function(callback, finishCB){
+  var stmt = this.dbm.makeStatement("SELECT * FROM filterView ORDER BY id \
+  DESC;");
+  stmt.each(function(err, row){
+    if(err == null){
+      callback(row);
+    }
+    else{
+      throw err;
+    }
+  },
+  function(err, num){
+    if(err == null){
+      console.log("Got " + num + " rows");
+      finishCB();
+      stmt.finalize();
+    }
+    else{
+      throw err;
+    }
+  });
+}
