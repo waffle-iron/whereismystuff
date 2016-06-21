@@ -231,7 +231,6 @@ $(document).ready(function(){
       return;
     }
     dbModel.addStuff(name, quantity, category, location, function(){
-      dbModel.update(updateLists);
       notify('add-tab', "Successfully added "+name, 'success');
     }, function(){
       notify('add-tab', "Failed to add "+name, 'danger');
@@ -305,7 +304,6 @@ $(document).ready(function(){
     var text = $('#text-filter').val();
     var category = $('#filter-category').val();
     var location = $('#filter-location').val();
-    console.log([text, category, location]);
     if(text == ""){text = null}
     if(category == -1){category = null}
     if(location == -1){location = null}

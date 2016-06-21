@@ -257,7 +257,12 @@ this.addStuff = function(name, quantity, category, location, successCB, failCB){
   location_id, quantity) VALUES ($item, $locID, $quantity)");
   idstmt.get(function(err, row){
     if(err == null){
-      var id = row.seq + 1;
+      if(row == null){
+        var id = 1;
+      }
+      else{
+        var id = row.seq + 1;
+      }
       itemstmt.run({$id: id, $name: name, $catID: category}, function(err, row){
         if(err == null){
           entstmt.run({$item: id, $locID: location, $quantity: quantity},
