@@ -64,9 +64,15 @@ function notify(tabID, message, type){
   role="alert"></div>').children(':first');
   notif.addClass('alert-' + type);
   notif.text(message);
-  headrow.slideDown('fast');
   notif.click(function(){
-    headrow.slideUp('fast');
+    headrow.slideUp('fast', function(){
+      headrow.remove();
+    });
+  });
+  headrow.slideDown('fast', function(){
+    window.setTimeout(function(){
+      notif.click();
+    }, 5000);
   });
 }
 
