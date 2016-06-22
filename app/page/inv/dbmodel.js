@@ -11,7 +11,7 @@ this.passDBM = function(dbm){
 }
 
 // Retrieve the top of the inventory
-this.getInvHead = function(callback){
+this.getInvHead = function(callback, finishCB){
   var stmt = this.dbm.makeStatement("SELECT * FROM inventory ORDER BY id DESC\
     LIMIT 30;");
   stmt.each(function(err, row){
@@ -26,6 +26,7 @@ this.getInvHead = function(callback){
     if(err == null){
       console.log("Got " + num + " rows");
       stmt.finalize();
+      finishCB();
     }
     else{
       throw err;
@@ -464,8 +465,8 @@ this.getInv = function(callback, finishCB){
   function(err, num){
     if(err == null){
       console.log("Got " + num + " rows");
-      finishCB();
       stmt.finalize();
+      finishCB();
     }
     else{
       throw err;

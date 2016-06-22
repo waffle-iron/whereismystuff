@@ -88,10 +88,9 @@ function getSelectedRows(){
 }
 
 // Update table function
-function updateTable(){
-  var table = $('#inventory');
-  table.empty();
-  dbModel.getInv(insertRowIntoTable(table), function(){
+function updateTable(firstCall = false){
+  // Define callback for row selection and formatting
+  var formatCallback = function(){
     // Row formatting
     $('#inventory :checkbox').change(function(){
       if(this.checked){
@@ -106,17 +105,23 @@ function updateTable(){
     $('#inventory tr').click(function(){
       $(this).children().children(':checkbox').click();
     });
-  });
+  }
+  var table = $('#inventory');
+  if(firstCall){
+    dbModel.getInvHead(insertRowIntoTable(table), formatCallback);
+  }
+  else{
+    table.empty();
+    dbModel.getInv(insertRowIntoTable(table), formatCallback);
+  }
 }
 
 // Site IO
 $(document).ready(function(){
   // Call in the database connection so that the model can be established
   makeModel(remote.getGlobal('dbm'));
-  // Retrieve the inventory table
-  var table = $('#inventory')
   // Get the inventory data and plug it into the table
-  dbModel.getInvHead(insertRowIntoTable(table));
+  updateTable(true);
   // While we're at it, populate the interface selector lists
   dbModel.update(updateLists);
 
@@ -316,5 +321,15 @@ $(document).ready(function(){
     dbModel.makeFilterView(text, category, location, function(){
       updateTable();
     });
+  });
+
+  // Master mark
+  $('#inventory-master-mark').removeAttr('disabled').change(function(){
+    if(this.checked){
+      $('#inventory :checkbox').not(':checked').click();
+    }
+    else{
+      $('#inventory :checked').click();
+    }
   });
 });
