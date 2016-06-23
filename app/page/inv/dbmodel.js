@@ -378,6 +378,7 @@ this.splitStuffStack = function(id, quantity, insufficientCB, failCB){
                 throw err;
               }
             });
+            updstmt.finalize();
           }
           else{
             if(failCB != undefined){
